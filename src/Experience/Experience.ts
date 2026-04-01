@@ -36,6 +36,10 @@ export default class Experience {
         // Options
         this.canvas = _canvas;
 
+        
+    }
+
+    start() {
         // Setup
         this.debug = new Debug()
         this.sizes = new Sizes()
