@@ -1,18 +1,14 @@
 import * as THREE from 'three'
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import EventEmitter from './EventEmitter.js'
-import type { Source } from '../../types.js'
+import type { LoaderList, Source } from '../../types.js'
 
 export default class Resources extends EventEmitter {
     sources: Source[];
     items: {[key: string]: THREE.CubeTexture | THREE.Texture | GLTF};
     toLoad: number;
     loaded: number;
-    loaders!: {
-        gltfLoader: GLTFLoader,
-        textureLoader: THREE.TextureLoader,
-        cubeTextureLoader: THREE.CubeTextureLoader
-    };
+    loaders!: LoaderList;
 
     constructor(sources: Source[]) {
         super()
@@ -32,6 +28,7 @@ export default class Resources extends EventEmitter {
     }
 
     setLoaders() {
+        this.loaders = {} as LoaderList;
         this.loaders.gltfLoader = new GLTFLoader()
         this.loaders.textureLoader = new THREE.TextureLoader()
         this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader()
@@ -52,6 +49,8 @@ export default class Resources extends EventEmitter {
                 this.loaders.textureLoader.load(
                     source.path as string,
                     (file) => {
+                        file.flipY = false;
+                        file.colorSpace = THREE.SRGBColorSpace;
                         this.sourceLoaded(source, file)
                     }
                 )
