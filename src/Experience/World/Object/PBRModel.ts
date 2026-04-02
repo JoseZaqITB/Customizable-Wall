@@ -29,7 +29,8 @@ export default class PBRModel {
     }
 
     setModel(model: GLTF) {
-        const mesh = model.scene.children[0] as Mesh;
+        const mesh = model.scene.children[0].clone() as Mesh;
+        mesh.name = mesh.name.concat((Math.random() * 1000).toString());
         if (mesh.isMesh)
             mesh.material = this.material;
         mesh.position.set(0,0, 2); // could be seted by the floor depth

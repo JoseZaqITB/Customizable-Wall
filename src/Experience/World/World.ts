@@ -14,14 +14,22 @@ export default class World {
     resources: Resources;
     #objectList: (Object3D | PBRModel)[] = [] ;
     meshList: THREE.Mesh[] = [];
-    activeObject: THREE.Mesh | undefined;
+    activeObject: (Object3D | PBRModel) | undefined;
+
+    // static objs
+    wall: Wall;
+    floor: Floor;
+
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         // objects
-        const wall = new Wall();
-        const floor = new Floor();
+        this.wall = new Wall();
+        this.floor = new Floor(-this.wall.height * 0.5);
+
+        this.wall.setZ(- this.floor.depth * 0.5);
+        
         const light = new Light();
         // Wait for resources
         this.resources.on('ready', () => {
@@ -29,6 +37,9 @@ export default class World {
             this.#addObject(
                 new StickyObject("chairModel", "chairTxt_diff", "chairTxt_arm", "chairTxt_nor")
             );
+            this.#addObject(
+                new StickyObject("chairModel", "chairTxt_diff", "chairTxt_arm", "chairTxt_nor", false)
+            )
 
         })
         // events
@@ -58,7 +69,8 @@ export default class World {
             // change color
             (obj.material as THREE.MeshStandardMaterial).color = new THREE.Color(0xff8800)
             // update active object
-            this.activeObject = obj;
+            const newActiveObject = this.#objectList.find((object) => object.instance.name === obj.name);
+            this.activeObject = newActiveObject;
             // show ui
             this.experience.hud.showMoveUI();
         } else {

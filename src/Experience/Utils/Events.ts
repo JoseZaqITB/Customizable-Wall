@@ -2,12 +2,14 @@ import { Mesh, Raycaster, Vector2 } from "three";
 import Experience from "../Experience";
 import type Sizes from "./Sizes";
 
-type EvenstListenersNames = "objectClicked";
+type EvenstListenersNames = "objectClicked" | "pointerMove";
 
 export default class Events {
     // properties
     #experience: Experience;
     #events: { [key: string]: { listenerName: string, event: (e: any) => void }[] } = {}
+
+    pointerPos = new Vector2();
 
     constructor() {
         this.#experience = new Experience();
@@ -19,12 +21,20 @@ export default class Events {
         switch (name) {
             case "objectClicked":
                 this.#ObjectClickedListener(this.#experience.sizes, callback);
+                break;
+            case "pointerMove":
+                this.#pointerMoveListener();
+                break;
         }
     };
     removeEventListener = (name: EvenstListenersNames) => {
         switch (name) {
             case "objectClicked":
-                this.#rmObjectClickedListener();
+                this.#rmListener("objectClicked");
+                break;
+            case "pointerMove":
+                this.#rmPointerMoveListener("pointerMove")
+                break;
         }
     };
 
@@ -58,11 +68,32 @@ export default class Events {
 
     }
 
-    #rmObjectClickedListener() {
-        this.#events["objectClicked"].forEach((event) =>
+    #rmListener(name: EvenstListenersNames) {
+        this.#events[name].forEach((event) =>
             this.#experience.canvas.removeEventListener(event.listenerName, event.event)
         )
     }
+
+    #pointerMoveListener() {
+        // OJO: add a condition: if it is already running just break fn
+        this.#events["pointerMove"] = [];
+        const event = this.#events["pointerMove"];
+        // add listener
+        const pointerMoveFn = (event: PointerEvent) => {
+            this.pointerPos.x = (event.clientX / this.#experience.sizes.width) * 2 - 1
+            this.pointerPos.y = - (event.clientY / this.#experience.sizes.height) * 2 + 1
+        }
+        // add event and listener
+        document.addEventListener("pointermove", pointerMoveFn ); // on document because is for HUD
+        event.push({listenerName: "pointermove", event: pointerMoveFn});
+    }
+
+    #rmPointerMoveListener(name: EvenstListenersNames) {
+        this.#events[name].forEach((event) =>
+            document.removeEventListener(event.listenerName, event.event)
+        )
+    }
+
 
 }
 

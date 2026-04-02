@@ -45,7 +45,6 @@ export default class Experience {
 
     start() {
         // Setup
-        this.hud = new HUD();
         this.events = new Events();
         this.debug = new Debug()
         this.sizes = new Sizes()
@@ -55,6 +54,7 @@ export default class Experience {
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()
+        this.hud = new HUD();
 
         
 
@@ -81,6 +81,7 @@ export default class Experience {
         this.camera.update()
         this.world.update()
         this.renderer.update()
+        this.hud.update();
     }
 
     destroy() {
