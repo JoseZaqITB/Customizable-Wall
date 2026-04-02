@@ -9,6 +9,7 @@ import World from './World/World.ts'
 import Resources from './Utils/Resources.ts'
 
 import sources from './sources.ts'
+import Events from './Utils/Events.ts'
 
 let instance: Experience | null = null;
 
@@ -22,6 +23,7 @@ export default class Experience {
     camera!: Camera;
     renderer!: Renderer;
     world!: World;
+    events!: Events;
 
     constructor(_canvas?: HTMLCanvasElement) {
         // Singleton
@@ -41,6 +43,7 @@ export default class Experience {
 
     start() {
         // Setup
+        this.events = new Events();
         this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
@@ -78,6 +81,7 @@ export default class Experience {
     }
 
     destroy() {
+        this.events.removeEventListener("objectClicked");
         this.sizes.off('resize')
         this.time.off('tick')
 
