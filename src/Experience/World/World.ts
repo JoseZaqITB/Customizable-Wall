@@ -59,7 +59,11 @@ export default class World {
             (obj.material as THREE.MeshStandardMaterial).color = new THREE.Color(0xff8800)
             // update active object
             this.activeObject = obj;
-
+            // show ui
+            this.experience.hud.showMoveUI();
+        } else {
+            this.activeObject = undefined;
+            this.experience.hud.hideMoveUI();
         }
     }
 }

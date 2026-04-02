@@ -10,6 +10,7 @@ import Resources from './Utils/Resources.ts'
 
 import sources from './sources.ts'
 import Events from './Utils/Events.ts'
+import HUD from '../UI/HUD.ts'
 
 let instance: Experience | null = null;
 
@@ -24,6 +25,7 @@ export default class Experience {
     renderer!: Renderer;
     world!: World;
     events!: Events;
+    hud!: HUD;
 
     constructor(_canvas?: HTMLCanvasElement) {
         // Singleton
@@ -43,6 +45,7 @@ export default class Experience {
 
     start() {
         // Setup
+        this.hud = new HUD();
         this.events = new Events();
         this.debug = new Debug()
         this.sizes = new Sizes()

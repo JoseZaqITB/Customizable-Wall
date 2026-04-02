@@ -12,7 +12,7 @@ export default class StickyObject extends PBRModel {
     move(){
         if(this.stickY)
         {
-            this.instance.position.y += 0.001;
+            //this.instance.position.y += 0.001;
         }
     }
 

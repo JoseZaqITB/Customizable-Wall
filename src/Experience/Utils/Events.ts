@@ -53,14 +53,14 @@ export default class Events {
 
         }
 
-        window.addEventListener("pointerup", pointerClickEvent);
+        this.#experience.canvas.addEventListener("pointerup", pointerClickEvent);
         event.push({ listenerName: "pointerup", event: pointerClickEvent });
 
     }
 
     #rmObjectClickedListener() {
         this.#events["objectClicked"].forEach((event) =>
-            window.removeEventListener(event.listenerName, event.event)
+            this.#experience.canvas.removeEventListener(event.listenerName, event.event)
         )
     }
 
