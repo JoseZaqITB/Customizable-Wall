@@ -14,6 +14,7 @@ export default class World {
     resources: Resources;
     #objectList: (Object3D | PBRModel)[] = [] ;
     meshList: THREE.Mesh[] = [];
+    activeObject: THREE.Mesh | undefined;
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
@@ -31,7 +32,7 @@ export default class World {
 
         })
         // events
-        this.experience.events.addEventListener("objectClicked", (obj) => {(obj.material as THREE.MeshStandardMaterial).color = new THREE.Color(0xff8800)});
+        this.experience.events.addEventListener("objectClicked", (obj) => this.#updateActiveObject(obj));
     }
 
     update() {
@@ -43,5 +44,22 @@ export default class World {
     #addObject(obj: Object3D | PBRModel) {
         this.#objectList.push(obj);
         this.meshList.push(obj.instance);
+    }
+
+    #updateActiveObject(obj: THREE.Mesh | undefined) {
+        // set default color to all objects
+        this.meshList.forEach((mesh) => {
+            if(mesh.isMesh)
+                (mesh.material as THREE.MeshStandardMaterial).color = new THREE.Color(); 
+        })
+
+        // set the active object
+        if(obj){
+            // change color
+            (obj.material as THREE.MeshStandardMaterial).color = new THREE.Color(0xff8800)
+            // update active object
+            this.activeObject = obj;
+
+        }
     }
 }

@@ -15,7 +15,7 @@ export default class Events {
     }
 
 
-    addEventListener = (name: EvenstListenersNames, callback?: (obj: Mesh) => void) => {
+    addEventListener = (name: EvenstListenersNames, callback?: (obj: Mesh | undefined) => void) => {
         switch (name) {
             case "objectClicked":
                 this.#ObjectClickedListener(this.#experience.sizes, callback);
@@ -28,10 +28,10 @@ export default class Events {
         }
     };
 
-    #ObjectClickedListener(sizes: Sizes, callback?: (obj: Mesh) => void) {
+    #ObjectClickedListener(sizes: Sizes, callback?: (obj: Mesh | undefined) => void) {
         this.#events["objectClicked"] = [];
         const event = this.#events["objectClicked"];
-        const mouse = new Vector2(0,0);
+        const mouse = new Vector2(0, 0);
         /* RAYCASTER */
         const raycaster = new Raycaster();
         /* TOUCH OR CLICKED LISTENER */
@@ -43,8 +43,14 @@ export default class Events {
             raycaster.setFromCamera(mouse, this.#experience.camera.instance);
             // get objects
             const intersectedObjs = raycaster.intersectObjects(this.#experience.world.meshList);
-            if(intersectedObjs.length > 0 && callback)
-                callback(intersectedObjs[0].object as Mesh);
+            if (callback) {
+                if (intersectedObjs.length > 0) {
+                    callback(intersectedObjs[0].object as Mesh);
+                }
+                else
+                    callback(undefined);
+            }
+
         }
 
         window.addEventListener("pointerup", pointerClickEvent);
