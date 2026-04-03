@@ -2,6 +2,7 @@ import Experience from "../Experience/Experience";
 import StickyObject from "../Experience/World/Object/StickyObject";
 import styles from "./HUD.module.css";
 import controlCameraIcon from "../assets/control_camera_icon.svg";
+import { Vector3 } from "three";
 
 export default class HUD {
     moveUIButton: HTMLButtonElement;
@@ -15,6 +16,26 @@ export default class HUD {
     }
 
     showMoveUI() {
+        // reset btn pos according to the obj pos
+        if(this.#experience.world.activeObject) {
+            const world = this.#experience.world;
+            const sizes = this.#experience.sizes;
+            const maxWorld3 = new Vector3(world.wall.width, world.wall.height, world.floor.depth);
+            const maxWindow3 = new Vector3(sizes.width, sizes.height, sizes.height);
+            const initPos = world.activeObject!.instance.position.clone();
+            initPos.y *= -1;
+            initPos.add(maxWorld3.clone().divideScalar(2));
+            
+            initPos.divide(maxWorld3);
+            initPos.multiply(maxWindow3);
+            if (world.activeObject instanceof StickyObject) {
+                if (world.activeObject.stickY)
+                    this.moveUIButton.style.transform = `translate(${initPos?.x}px, ${initPos?.y}px)`
+                else
+                    this.moveUIButton.style.transform = `translate(${initPos?.x}px, ${initPos?.z}px)`
+            }
+        }
+        // remove hidden class
         this.moveUIButton.classList.remove(styles.hiddenBtn);
     }
 
@@ -35,7 +56,6 @@ export default class HUD {
         const btnY = ((-pointerPosition.y + 1) / 2) * sizes.height - this.#btnOffsetY;
 
         this.moveUIButton.style.transform = `translate(${btnX}px,${btnY}px)`;
-        console.log(this.moveUIButton.style.transform)
         // move obj
         if (this.#experience.world.activeObject instanceof StickyObject)
             this.#experience.world.activeObject.move(pointerPosition);
@@ -58,10 +78,13 @@ export default class HUD {
         btn.append(icon);
 
         btn.addEventListener("pointerdown", (e) => {
-            btn.setPointerCapture(e.pointerId); 
+            // avoid werird pointer behaviour
+            btn.setPointerCapture(e.pointerId);
+            // put pos from the center of the btn
             const rect = btn.getBoundingClientRect();
             this.#btnOffsetX = e.clientX - rect.left;
             this.#btnOffsetY = e.clientY - rect.top;
+            // set movement available
             this.#isMoveObjActive = true;
         });
         btn.addEventListener("pointermove", () => {
@@ -82,7 +105,7 @@ export default class HUD {
 
     #startMovement() {
         // pointer position listener
-        if(!this.#isMoveObjActive) return;
+        if (!this.#isMoveObjActive) return;
         const events = this.#experience.events;
         events.addEventListener("pointerMove");
     }
