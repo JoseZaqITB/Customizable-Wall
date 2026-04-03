@@ -3,14 +3,21 @@ import StickyObject from "../Experience/World/Object/StickyObject";
 import styles from "./HUD.module.css";
 import controlCameraIcon from "../assets/control_camera_icon.svg";
 import { Vector3 } from "three";
+import FurnitureUI from "./furnitureUI/furnitureUI";
 
 export default class HUD {
+    HUDHtmlElement: HTMLElement;
     moveUIButton: HTMLButtonElement;
     #experience: Experience;
     #isMoveObjActive = false;
     #btnOffsetX = 0;
     #btnOffsetY = 0;
     constructor() {
+        
+        // init UIs
+        this.HUDHtmlElement = this.#initUI();
+        //this.#initUIs(); //OJO: ADD UIs
+        //
         this.#experience = new Experience();
         this.moveUIButton = this.#createMoveUI();
     }
@@ -20,7 +27,7 @@ export default class HUD {
         if(this.#experience.world.activeObject) {
             const world = this.#experience.world;
             const sizes = this.#experience.sizes;
-            const maxWorld3 = new Vector3(world.wall.width, world.wall.height, world.floor.depth);
+            const maxWorld3 = new Vector3(world.wall!.width, world.wall!.height, world.floor!.depth);
             const maxWindow3 = new Vector3(sizes.width, sizes.height, sizes.height);
             const initPos = world.activeObject!.instance.position.clone();
             initPos.y *= -1;
@@ -48,6 +55,15 @@ export default class HUD {
             this.#updateMove();
     }
 
+    #initUIs() {
+        const furnitureUI = new FurnitureUI();
+        this.addUI(furnitureUI);
+    }
+
+    addUI(UI: FurnitureUI) {
+        this.HUDHtmlElement.append(UI.htmlElement);
+    }
+
     #updateMove() {
         // move button
         const pointerPosition = this.#experience.events.pointerPos;
@@ -61,12 +77,15 @@ export default class HUD {
             this.#experience.world.activeObject.move(pointerPosition);
     }
 
-
-    #createMoveUI() {
+    #initUI() {
         // create wrapper
         const hudContainer = document.createElement("div");
         hudContainer.className = styles.hud;
         document.body.append(hudContainer);
+        return hudContainer;
+    }
+    #createMoveUI() {
+        
         // create button enviroment
         const btn = document.createElement("button");
         btn.classList.add(styles.btn);
@@ -99,7 +118,7 @@ export default class HUD {
             this.#stopMovement()
         });
 
-        hudContainer.append(btn);
+        this.HUDHtmlElement.append(btn);
         return btn;
     }
 

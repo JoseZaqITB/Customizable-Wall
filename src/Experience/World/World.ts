@@ -35,10 +35,10 @@ export default class World {
 
             this.wall.setZ(- this.floor.depth * 0.5);
             // Setup
-            this.#addObject(
+            this.addObject(
                 new StickyObject(false, "chairModel", "chairTxt_diff", "chairTxt_arm", "chairTxt_nor")
             );
-            this.#addObject(
+            this.addObject(
                 new StickyObject(true, "picture"),
             )
 
@@ -53,7 +53,7 @@ export default class World {
             this.fox.update() */
     }
 
-    #addObject(obj: Object3D | PBRModel) {
+    addObject(obj: Object3D | PBRModel) {
         this.#objectList.push(obj);
         this.meshList.push(obj.instance);
     }
