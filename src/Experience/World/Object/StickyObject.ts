@@ -10,11 +10,12 @@ export default class StickyObject extends PBRModel {
         // set properties
         this.stickY = stickY;
         this.#experience = new Experience();
-
+        
         this.#initPosition();
     }
 
     move(position2D: THREE.Vector2) {
+        if(!this.#experience.world.wall || !this.#experience.world.floor) return
         if (this.stickY) {
             this.instance.position.y = position2D.y * this.#experience.world.wall.height * 0.5;
             this.instance.position.x = position2D.x * this.#experience.world.wall.width * 0.5;
@@ -29,6 +30,7 @@ export default class StickyObject extends PBRModel {
     }
 
     #initPosition() {
+        if(!this.#experience.world.wall || !this.#experience.world.floor) return;
         // get dimensions
         //this.instance.geometry.computeBoundingBox();
         const box = new THREE.Box3().setFromObject(this.instance);

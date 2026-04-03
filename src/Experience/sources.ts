@@ -1,5 +1,35 @@
 export default [
     {
+        name:'wall_diff',
+        type:'texture',
+        path:'beige_wall_001_1k/textures/beige_wall_001_diff_1k.jpg'
+    },
+    {
+        name:'wall_arm',
+        type:'texture',
+        path:'beige_wall_001_1k/textures/beige_wall_001_arm_1k.jpg'
+    },
+    {
+        name:'wall_nor',
+        type:'texture',
+        path:'beige_wall_001_1k/textures/beige_wall_001_nor_gl_1k.jpg'
+    },
+    {
+        name:'floor_diff',
+        type:'texture',
+        path:'laminate_floor_02_1k/textures/laminate_floor_02_diff_1k.jpg'
+    },
+    {
+        name:'floor_arm',
+        type:'texture',
+        path:'laminate_floor_02_1k/textures/laminate_floor_02_arm_1k.jpg'
+    },
+    {
+        name:'floor_nor',
+        type:'texture',
+        path:'laminate_floor_02_1k/textures/laminate_floor_02_nor_gl_1k.jpg'
+    },
+    {
         name: 'picture',
         type: 'gltfModel',
         path: "fancy_picture_frame_01_1k.gltf/fancy_picture_frame_01_1k.gltf"
