@@ -1,5 +1,10 @@
 export default [
     {
+        name: 'picture',
+        type: 'gltfModel',
+        path: "fancy_picture_frame_01_1k.gltf/fancy_picture_frame_01_1k.gltf"
+    },
+    {
         name: 'chairModel',
         type: 'gltfModel',
         path: "mid_century_lounge_chair_1k.gltf/mid_century_lounge_chair_1k.gltf"

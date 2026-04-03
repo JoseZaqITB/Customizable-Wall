@@ -5,7 +5,7 @@ import Experience from "../../Experience";
 export default class StickyObject extends PBRModel {
     stickY: boolean;
     #experience: Experience;
-    constructor(name: string, diff?: string, arm?: string, normal?: string, stickY: boolean = true) {
+    constructor(stickY: boolean = true,name: string, diff?: string, arm?: string, normal?: string) {
         super(name, diff, arm, normal);
         // set properties
         this.stickY = stickY;
@@ -30,7 +30,7 @@ export default class StickyObject extends PBRModel {
 
     #initPosition() {
         // get dimensions
-        this.instance.geometry.computeBoundingBox();
+        //this.instance.geometry.computeBoundingBox();
         const box = new THREE.Box3().setFromObject(this.instance);
         const size = new THREE.Vector3();
         box.getSize(size);

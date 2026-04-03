@@ -1,4 +1,4 @@
-import { Mesh, Raycaster, Vector2 } from "three";
+import {Object3D, Raycaster, Vector2 } from "three";
 import Experience from "../Experience";
 import type Sizes from "./Sizes";
 
@@ -17,7 +17,7 @@ export default class Events {
     }
 
 
-    addEventListener = (name: EvenstListenersNames, callback?: (obj: Mesh | undefined) => void) => {
+    addEventListener = (name: EvenstListenersNames, callback?: (obj: Object3D | undefined) => void) => {
         switch (name) {
             case "objectClicked":
                 this.#ObjectClickedListener(this.#experience.sizes, callback);
@@ -38,7 +38,7 @@ export default class Events {
         }
     };
 
-    #ObjectClickedListener(sizes: Sizes, callback?: (obj: Mesh | undefined) => void) {
+    #ObjectClickedListener(sizes: Sizes, callback?: (obj: Object3D | undefined) => void) {
         this.#events["objectClicked"] = [];
         const event = this.#events["objectClicked"];
         const mouse = new Vector2(0, 0);
@@ -55,7 +55,12 @@ export default class Events {
             const intersectedObjs = raycaster.intersectObjects(this.#experience.world.meshList);
             if (callback) {
                 if (intersectedObjs.length > 0) {
-                    callback(intersectedObjs[0].object as Mesh);
+                    let object: Object3D = intersectedObjs[0].object;
+                    // if it is part of group take them all
+                    while(object.parent && !object.userData["isDraggable"])
+                        object = object.parent;
+                    //
+                    callback(object);
                 }
                 else
                     callback(undefined);
