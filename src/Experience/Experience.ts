@@ -46,7 +46,6 @@ export default class Experience {
     start() {
         // Setup
         this.events = new Events();
-        this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
         this.scene = new THREE.Scene()
@@ -55,6 +54,7 @@ export default class Experience {
         this.renderer = new Renderer()
         this.world = new World()
         this.hud = new HUD();
+        this.debug = new Debug()
 
         
 
