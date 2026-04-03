@@ -10,16 +10,21 @@ export default class Floor extends Object3D {
         const geometry = new THREE.BoxGeometry(width, depth, height);
         const material = new THREE.MeshBasicMaterial({ color });
 
-        // setup geomretry
-        geometry.translate(0, 0, y-height / 2);
+        // setup matrix
         geometry.rotateX(-Math.PI / 2);
         //
         super(geometry, material);
-
+        
         // init properties
         this.color = color;
         this.width = width;
         this.height = height;
         this.depth = depth;
+
+        this.#initPosition(y);
+    }
+
+    #initPosition(y = 0) {
+        this.instance.position.set(0, y-this.height / 2, 0 );
     }
 }

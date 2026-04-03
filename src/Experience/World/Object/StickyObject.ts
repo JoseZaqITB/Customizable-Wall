@@ -1,4 +1,4 @@
-import type { Vector2 } from "three";
+import * as THREE from "three";
 import PBRModel from "./PBRModel";
 import Experience from "../../Experience";
 
@@ -10,9 +10,11 @@ export default class StickyObject extends PBRModel {
         // set properties
         this.stickY = stickY;
         this.#experience = new Experience();
+
+        this.#initPosition();
     }
 
-    move(position2D: Vector2) {
+    move(position2D: THREE.Vector2) {
         if (this.stickY) {
             this.instance.position.y = position2D.y * this.#experience.world.wall.height * 0.5;
             this.instance.position.x = position2D.x * this.#experience.world.wall.width * 0.5;
@@ -24,5 +26,21 @@ export default class StickyObject extends PBRModel {
 
     update() {
 
+    }
+
+    #initPosition() {
+        // get dimensions
+        this.instance.geometry.computeBoundingBox();
+        const box = new THREE.Box3().setFromObject(this.instance);
+        const size = new THREE.Vector3();
+        box.getSize(size);
+        // set new position
+        if (this.stickY){
+            const wall = this.#experience.world.wall;
+            this.instance.position.z = wall.instance.position.z + wall.depth / 2 + size.z / 2;
+        } else {
+            const floor = this.#experience.world.floor;
+            this.instance.position.y = floor.instance.position.y + floor.height / 2;
+        }
     }
 }
