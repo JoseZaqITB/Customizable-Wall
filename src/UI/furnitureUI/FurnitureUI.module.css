@@ -1,9 +1,14 @@
-.furnitureContainer {
+.wrapper {
   position: absolute;
   top: 0;
   left: 0;
 
-  width: min(30%, 300px);
+  display: flex;
+  height: 100%;
+  pointer-events: auto;
+}
+.furnitureContainer {
+  width: 180px;
   height: 100%;
 
   padding: 8px;
@@ -11,23 +16,104 @@
   background-color: hsla(52, 66%, 40%, 0.5);
 
   box-sizing: border-box;
-  pointer-events: auto;
+}
+
+.hiddenContainer {
+  display: none;
 }
 
 nav {
   list-style-type: none;
 }
 
-nav li {
+.li {
+  display: flex;
+  align-items: center;
   margin: 8px 0px;
 }
 
-button {
-  font-size: 16px;
+.form {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
 
-  padding: 4px;
+  font-size: 18px;
+  color: hsl(235, 100%, 96%);
+}
+
+.btn {
+  font-size: 16px;
+  min-width: 100px;
+
   margin: auto;
+  padding: 4px;
 
   border: 1px solid black;
   border-radius: 8px;
+}
+
+.hideBtn {
+  width: 24px;
+  height: 24px;
+  background-color: hsla(52, 66%, 40%, 0.5);
+
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+
+  transform: rotate(90deg);
+  border: unset;
+}
+
+.upArrow {
+  width: 0px;
+  height: 0px;
+
+  border-bottom: 12px solid hsl(235, 100%, 96%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+
+  margin: auto;
+}
+
+.downArrow {
+  width: 0px;
+  height: 0px;
+
+  border-top: 12px solid hsl(235, 100%, 96%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+
+  margin: auto;
+}
+
+@media (max-width: 460px) {
+  .wrapper {
+    flex-direction: column-reverse;
+  }
+  .furnitureContainer {
+    top: unset;
+    bottom: 0;
+
+    width: 100%;
+    height: 160px;
+
+    overflow: hidden;
+  }
+
+  .btnContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  nav {
+    overflow: scroll;
+    height: 80%;
+  }
+
+  .hideBtn {
+    transform: unset;
+  }
 }

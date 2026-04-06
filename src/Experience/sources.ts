@@ -30,6 +30,36 @@ export default [
         path:'laminate_floor_02_1k/textures/laminate_floor_02_nor_gl_1k.jpg'
     },
     {
+        name: 'cabinet',
+        type: 'gltfModel',
+        path: "chinese_cabinet_1k.gltf/chinese_cabinet_1k.gltf"
+    },
+    {
+        name: 'table',
+        type: 'gltfModel',
+        path: "modern_coffee_table_02_1k.gltf/modern_coffee_table_02_1k.gltf"
+    },
+    {
+        name: 'woodCabinet',
+        type: 'gltfModel',
+        path: "modern_wooden_cabinet_1k.gltf/modern_wooden_cabinet_1k.gltf"
+    },
+    {
+        name: 'plant',
+        type: 'gltfModel',
+        path: "potted_plant_02_1k.gltf/potted_plant_02_1k.gltf"
+    },
+    {
+        name: 'sofa',
+        type: 'gltfModel',
+        path: "Sofa_01_1k.gltf/Sofa_01_1k.gltf"
+    },
+    {
+        name: 'television',
+        type: 'gltfModel',
+        path: "Television_01_1k.gltf/Television_01_1k.gltf"
+    },
+    {
         name: 'picture',
         type: 'gltfModel',
         path: "fancy_picture_frame_01_1k.gltf/fancy_picture_frame_01_1k.gltf"

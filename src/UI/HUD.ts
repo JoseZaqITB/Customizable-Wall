@@ -16,7 +16,7 @@ export default class HUD {
         
         // init UIs
         this.HUDHtmlElement = this.#initUI();
-        //this.#initUIs(); //OJO: ADD UIs
+        this.#initUIs(); //OJO: ADD UIs
         //
         this.#experience = new Experience();
         this.moveUIButton = this.#createMoveUI();
