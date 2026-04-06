@@ -60,20 +60,23 @@ export default class World {
 
     #updateActiveObject(obj: THREE.Object3D | undefined) {
         // set default color to all objects
-        this.meshList.forEach((mesh) => {
-            if (mesh instanceof THREE.Mesh)
-                (mesh.material as THREE.MeshStandardMaterial).color = new THREE.Color();
-            else {
-                ((mesh.children[0] as THREE.Mesh).material as THREE.MeshStandardMaterial).color = new THREE.Color();
+        this.meshList.forEach((object) => {
+            let mesh = object
+            while(!(mesh instanceof THREE.Mesh)) {
+                mesh = mesh.children[0] as THREE.Group;
             }
+            (mesh.material as THREE.MeshStandardMaterial).color = new THREE.Color();
         })
+
 
         // set the active object
         if (obj) {
             // change color
-            const parseObject = obj instanceof THREE.Mesh ?
-                obj as THREE.Mesh : obj.children[0] as THREE.Mesh
-            (parseObject.material as THREE.MeshStandardMaterial).color = new THREE.Color(0xff8800)
+            let coloredMesh = obj;
+            while(!(coloredMesh instanceof THREE.Mesh)) {
+                coloredMesh = coloredMesh.children[0];
+            }
+            (coloredMesh.material as THREE.MeshStandardMaterial).color = new THREE.Color(0xff8800)
             // update active object
             const newActiveObject = this.#objectList.find((object) => object.instance.name === obj.name);
             this.activeObject = newActiveObject;
@@ -84,4 +87,15 @@ export default class World {
             this.experience.hud.hideMoveUI();
         }
     }
+
+
+}
+
+function resetColorObject(mesh: THREE.Mesh | THREE.Group) {
+        if (mesh instanceof THREE.Mesh) {
+            (mesh.material as THREE.MeshStandardMaterial).color = new THREE.Color();
+        }
+        else if(!(mesh.children[0] instanceof THREE.Mesh)) {
+            resetColorObject(mesh.children[0] as THREE.Group);
+        }
 }
