@@ -36,7 +36,23 @@ export default class FurnitureUI {
             // btn
             const btn = document.createElement("button");
             btn.className = styles.btn;
-            btn.textContent = furnitureName;
+            
+            const iconTitleWrapper = document.createElement("div");
+            const icon = document.createElement("div");
+            const p = document.createElement("p");
+            const addIcon = document.createElement("p");
+
+            iconTitleWrapper.className = styles.iconTitleWrapper;
+
+            addIcon.textContent = "+";
+            addIcon.className = styles.addIcon;
+
+            p.textContent = furnitureName;
+            icon.className = styles.btnIcon;
+            icon.textContent = "🪑";
+
+            iconTitleWrapper.append(icon, p);
+            btn.append(iconTitleWrapper, addIcon);
 
             btn.onclick = () => this.#handleClick(experience.world, furnitureName);
 
@@ -93,6 +109,7 @@ export default class FurnitureUI {
 
 function createOption(name: string) {
     const radioContainer = document.createElement("div");
+    radioContainer.className = styles.radioContainer;
 
     const label = document.createElement("label");
     label.htmlFor = name;

@@ -11,11 +11,12 @@
 
 .btn {
   font-size: 16px;
+  color: var(--color-lightest);
 
   padding: 4px;
   margin: auto;
 
-  border: 1px solid black;
+  border: 1px solid var(--color-lightest);
   border-radius: 8px;
 
   -webkit-touch-callout: none; /* Disables the callout menu on iOS */
