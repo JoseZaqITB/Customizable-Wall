@@ -36,7 +36,7 @@ export default class HUD {
             initPos.divide(maxWorld3);
             initPos.multiply(maxWindow3);
             if (world.activeObject instanceof StickyObject) {
-                if (world.activeObject.stickY)
+                if (world.activeObject.stickZ)
                     this.moveUIButton.style.transform = `translate(${initPos?.x}px, ${initPos?.y}px)`
                 else
                     this.moveUIButton.style.transform = `translate(${initPos?.x}px, ${initPos?.z}px)`
