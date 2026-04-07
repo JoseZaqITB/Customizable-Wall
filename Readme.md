@@ -6,8 +6,9 @@
 - adjust lights
 - create UI model menu to add new objects
 - establish boundaries to object movements
-
 - add rotation feature
+
 - scroll on horizontal phone too
 - build a livingRoom
 - should i remove btn listeners?
+- remove pbr textures as parameters in StickyObject

@@ -8,8 +8,16 @@ export default class StickyObject extends PBRModel {
     size = new THREE.Vector3;
     #experience: Experience;
 
-    constructor(stickZ: boolean = true, name: string, diff?: string, arm?: string, normal?: string) {
-        super(name, diff, arm, normal);
+    constructor(
+        stickZ: boolean = true,
+        name: string,
+        position?: THREE.Vector3,
+        rotation?: THREE.Vector3,
+        diff?: string,
+        arm?: string,
+        normal?: string
+    ) {
+        super(name, position, rotation, diff, arm, normal);
         // set properties
         this.stickOnWall = stickZ;
         this.#experience = new Experience();
@@ -19,8 +27,8 @@ export default class StickyObject extends PBRModel {
         const box = new THREE.Box3().setFromObject(this.instance);
         box.getSize(this.size);
 
-        const  wall = this.#experience.world.wall!;
-        const  floor = this.#experience.world.floor!;
+        const wall = this.#experience.world.wall!;
+        const floor = this.#experience.world.floor!;
 
         const minBndrs = new THREE.Vector3(
             -floor.width * 0.5 + this.size.x * 0.5,
@@ -35,7 +43,7 @@ export default class StickyObject extends PBRModel {
         );
         this.movementbounderies = { min: minBndrs, max: maxBndrs };
 
-        
+
         //
         this.#initPosition();
     }
@@ -67,19 +75,19 @@ export default class StickyObject extends PBRModel {
     }
 
     rotate(position2D: THREE.Vector2) {
-        if(this.stickOnWall) {
+        if (this.stickOnWall) {
             this.instance.rotation.z = position2D.angle() - Math.PI * 0.5;
         } else {
             this.instance.rotation.y = position2D.angle() - Math.PI * 0.5;
         }
-    }   
+    }
 
     update() {
 
     }
 
     #initPosition() {
-        
+
         // set new position
         if (this.stickOnWall) {
             const wall = this.#experience.world.wall;

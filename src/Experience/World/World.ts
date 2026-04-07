@@ -30,18 +30,13 @@ export default class World {
         // Wait for resources
         this.resources.on('ready', () => {
             // main objects
-            this.wall = new Wall();
-            this.floor = new Floor(-this.wall.height * 0.5);
+            this.wall = new Wall(4,2.5,0.25);
+            this.floor = new Floor(-this.wall.height * 0.5,4,4,0.25);
 
             this.wall.setZ(- this.floor.depth * 0.5);
             // Setup
-            this.addObject(
-                new StickyObject(false, "chairModel", "chairTxt_diff", "chairTxt_arm", "chairTxt_nor")
-            );
-            this.addObject(
-                new StickyObject(true, "picture"),
-            )
-
+            const livingRoomSetup = furnitureSeed();
+            livingRoomSetup.forEach((fur) => this.addObject(fur));
         })
         // events
         this.experience.events.addEventListener("objectClicked", (obj) => this.#updateActiveObject(obj));
@@ -91,3 +86,19 @@ export default class World {
 
 }
 
+function furnitureSeed() {
+    const array = [];
+    //
+    array.push(new StickyObject(false, "sofa", new THREE.Vector3(0,0,1.5), new THREE.Vector3(0,Math.PI,0)));
+    array.push(new StickyObject(false, "sofa", new THREE.Vector3(1.25,0,0.25), new THREE.Vector3(0, - Math.PI * 0.5,0)));
+    array.push(new StickyObject(true, "woodCabinet", new THREE.Vector3(0,-1.25,0)));
+    array.push(new StickyObject(true, "television", new THREE.Vector3(0,-0.6,0)));
+    array.push(new StickyObject(true, "picture", new THREE.Vector3(0.6,0.25,0)));
+    array.push(new StickyObject(true, "picture", new THREE.Vector3(-0.6,0.25,0)));
+    array.push(new StickyObject(true, "plant", new THREE.Vector3(-1,-0.6,0)));
+    array.push(new StickyObject(true, "plant", new THREE.Vector3(1,-0.6,0)));
+    array.push(new StickyObject(false, "table", new THREE.Vector3(0,0,0)));
+    //
+    return array;
+    
+}
