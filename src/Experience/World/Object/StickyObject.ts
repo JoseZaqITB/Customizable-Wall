@@ -19,16 +19,19 @@ export default class StickyObject extends PBRModel {
         const box = new THREE.Box3().setFromObject(this.instance);
         box.getSize(this.size);
 
+        const  wall = this.#experience.world.wall!;
+        const  floor = this.#experience.world.floor!;
+
         const minBndrs = new THREE.Vector3(
-            -this.#experience.world.floor!.width * 0.5 + this.size.x * 0.5,
-            -this.#experience.world.wall!.height * 0.5 + this.#experience.world.floor!.height * 0.5 + this.size.y * 0.5,
-            -this.#experience.world.floor!.depth * 0.5 + this.#experience.world.wall!.depth * 0.5 + this.size.z * 0.5 
+            -floor.width * 0.5 + this.size.x * 0.5,
+            floor.instance.position.y + floor.height * 0.5 + this.size.y * 0.5,
+            wall.instance.position.z + wall.depth * 0.5 + this.size.z * 0.5
         );
 
         const maxBndrs = new THREE.Vector3(
-            this.#experience.world.floor!.width * 0.5 - this.size.x * 0.5,
-            this.#experience.world.wall!.height * 0.5 - this.size.y * 0.5,
-            this.#experience.world.floor!.depth * 0.5 - this.size.z * 0.5
+            floor.width * 0.5 - this.size.x * 0.5,
+            wall.height * 0.5 - this.size.y * 0.5,
+            floor.depth * 0.5 - this.size.z * 0.5
         );
         this.movementbounderies = { min: minBndrs, max: maxBndrs };
 
