@@ -81,21 +81,13 @@ export default class World {
             const newActiveObject = this.#objectList.find((object) => object.instance.name === obj.name);
             this.activeObject = newActiveObject;
             // show ui
-            this.experience.hud.showMoveUI();
+            this.experience.hud.UIList.moveUI.show();
         } else {
             this.activeObject = undefined;
-            this.experience.hud.hideMoveUI();
+            this.experience.hud.UIList.moveUI.hide();
         }
     }
 
 
 }
 
-function resetColorObject(mesh: THREE.Mesh | THREE.Group) {
-        if (mesh instanceof THREE.Mesh) {
-            (mesh.material as THREE.MeshStandardMaterial).color = new THREE.Color();
-        }
-        else if(!(mesh.children[0] instanceof THREE.Mesh)) {
-            resetColorObject(mesh.children[0] as THREE.Group);
-        }
-}

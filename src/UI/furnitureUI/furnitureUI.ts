@@ -3,14 +3,13 @@ import styles from "./FurnitureUI.module.css"
 import sources from "../../Experience/sources";
 import StickyObject from "../../Experience/World/Object/StickyObject";
 import World from "../../Experience/World/World";
+import UI from "../UI";
 
 const furnitureList = sources.filter((item) => item.type === "gltfModel").map((item) => item.name);
 
-export default class FurnitureUI {
-    htmlElement: HTMLElement;
-    isHidden = false;
+export default class FurnitureUI extends UI {
     constructor() {
-        this.htmlElement = this.initUI();
+        super();
     }
 
     initUI() {
@@ -93,10 +92,7 @@ export default class FurnitureUI {
         // add to container
         container.append(nav);
 
-        return wrapper;
-
-    }
-    showUI() {
+        this.htmlElement = wrapper;
 
     }
 

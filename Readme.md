@@ -5,6 +5,8 @@
 - improve wall and floor -> like using pbr materials
 - adjust lights
 - create UI model menu to add new objects
-
 - establish boundaries to object movements
+
+- add rotation feature
+- build a livingRoom
 - should i remove btn listeners?

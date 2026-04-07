@@ -1,0 +1,27 @@
+.hiddenBtn {
+  display: none;
+}
+
+.btn {
+  font-size: 16px;
+  color: var(--color-lightest);
+
+  padding: 4px;
+  margin: auto;
+
+  border: 1px solid var(--color-lightest);
+  border-radius: 8px;
+
+  -webkit-touch-callout: none; /* Disables the callout menu on iOS */
+  -webkit-user-select: none; /* Prevents text selection while holding */
+  user-select: none;
+  touch-action: none; /* Prevents zooming/double-tap delays */
+
+  pointer-events: auto;
+  cursor: pointer;
+
+  & img {
+    display: block;
+    pointer-events: none;
+  }
+}
