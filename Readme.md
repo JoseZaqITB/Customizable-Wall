@@ -8,5 +8,6 @@
 - establish boundaries to object movements
 
 - add rotation feature
+- scroll on horizontal phone too
 - build a livingRoom
 - should i remove btn listeners?

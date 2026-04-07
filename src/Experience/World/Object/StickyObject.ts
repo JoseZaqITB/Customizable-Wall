@@ -3,7 +3,7 @@ import PBRModel from "./PBRModel";
 import Experience from "../../Experience";
 
 export default class StickyObject extends PBRModel {
-    stickZ: boolean;
+    stickOnWall: boolean;
     movementbounderies: { min: THREE.Vector3, max: THREE.Vector3 };
     size = new THREE.Vector3;
     #experience: Experience;
@@ -11,7 +11,7 @@ export default class StickyObject extends PBRModel {
     constructor(stickZ: boolean = true, name: string, diff?: string, arm?: string, normal?: string) {
         super(name, diff, arm, normal);
         // set properties
-        this.stickZ = stickZ;
+        this.stickOnWall = stickZ;
         this.#experience = new Experience();
 
         // get dimensions
@@ -42,7 +42,7 @@ export default class StickyObject extends PBRModel {
 
     move(position2D: THREE.Vector2) {
         // move on the right axis ( Y or Z ) and respecting boundaries
-        if (this.stickZ) {
+        if (this.stickOnWall) {
             const minY = Math.max(
                 this.movementbounderies.min.y,
                 position2D.y * this.#experience.world.wall!.height * 0.5
@@ -66,6 +66,14 @@ export default class StickyObject extends PBRModel {
 
     }
 
+    rotate(position2D: THREE.Vector2) {
+        if(this.stickOnWall) {
+            this.instance.rotation.z = position2D.angle() - Math.PI * 0.5;
+        } else {
+            this.instance.rotation.y = position2D.angle() - Math.PI * 0.5;
+        }
+    }   
+
     update() {
 
     }
@@ -73,7 +81,7 @@ export default class StickyObject extends PBRModel {
     #initPosition() {
         
         // set new position
-        if (this.stickZ) {
+        if (this.stickOnWall) {
             const wall = this.#experience.world.wall;
             this.instance.position.z = wall!.instance.position.z + wall!.depth / 2 + this.size.z / 2;
         } else {

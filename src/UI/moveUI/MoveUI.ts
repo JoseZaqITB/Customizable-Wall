@@ -1,73 +1,145 @@
 import UI from "../UI";
 import StickyObject from "../../Experience/World/Object/StickyObject";
 import controlCameraIcon from "../../assets/control_camera_icon.svg";
-import { Vector3 } from "three";
+import rotateIcon from "../../assets/rotate_auto_24dp_FFFBEB_FILL0_wght400_GRAD0_opsz24.svg";
+import { Vector2, Vector3 } from "three";
 import styles from "./MovUI.module.css";
 import Experience from "../../Experience/Experience";
 
+type activeActionType = "movement" | "rotation";
+
 export default class MoveUI extends UI {
+    movementBtn!: HTMLElement;
     #experience: Experience;
-    #isMoveObjActive = false;
+    #isObjActive = false;
     #btnOffsetX = 0;
     #btnOffsetY = 0;
+    activeAction: activeActionType = "movement";
+    selectRotationbtn!: HTMLButtonElement;
+    selectMovementbtn!: HTMLButtonElement;
+
     constructor() {
         super();
+
+        this.initUI();
         // set properties
         this.#experience = new Experience();
     }
 
     initUI() {
-        // create button enviroment
-        const btn = document.createElement("button");
-        btn.classList.add(styles.btn);
-        btn.classList.add(styles.hiddenBtn);
+        /* WRAPPER */
+        const wrapper = document.createDocumentFragment();
 
-        // add icon
-        const icon = document.createElement("img");
-        icon.setAttribute("src", controlCameraIcon);
-        btn.append(icon);
+        // create button for movement
+        const moveBtn = createIconButton(controlCameraIcon);
+        moveBtn.classList.add(styles.moveBtn);
+        moveBtn.classList.add(styles.hiddenBtn);
 
-        btn.addEventListener("pointerdown", (e) => {
+        moveBtn.addEventListener("pointerdown", (e) => {
             // avoid werird pointer behaviour
-            btn.setPointerCapture(e.pointerId);
+            moveBtn.setPointerCapture(e.pointerId);
             // put pos from the center of the btn
-            const rect = btn.getBoundingClientRect();
+            const rect = moveBtn.getBoundingClientRect();
             this.#btnOffsetX = e.clientX - rect.left;
             this.#btnOffsetY = e.clientY - rect.top;
             // set movement available
-            this.#isMoveObjActive = true;
+            this.#isObjActive = true;
         });
-        btn.addEventListener("pointermove", () => {
+        moveBtn.addEventListener("pointermove", () => {
             this.#startMovement();
         });
-        btn.addEventListener("pointerup", (e) => {
-            btn.releasePointerCapture(e.pointerId);
+        moveBtn.addEventListener("pointerup", (e) => {
+            moveBtn.releasePointerCapture(e.pointerId);
             this.#stopMovement()
         });
-        btn.addEventListener("pointerleave", (e) => {
-            btn.releasePointerCapture(e.pointerId);
+        moveBtn.addEventListener("pointerleave", (e) => {
+            moveBtn.releasePointerCapture(e.pointerId);
             this.#stopMovement()
         });
 
-        this.htmlElement = btn;
+        // save properties
+        this.movementBtn = moveBtn;
+
+        // button list
+        const btnGroup = this.#createButtonGroup();
+
+        // add all to wrapper
+        wrapper.append(moveBtn, btnGroup);
+        // save wrapper
+        this.htmlElement = wrapper;
     }
 
-    #updateMove() {
-        // move button
-        const pointerPosition = this.#experience.events.pointerPos;
-        const sizes = this.#experience.sizes;
-        const btnX = ((pointerPosition.x + 1) / 2) * sizes.width - this.#btnOffsetX;
-        const btnY = ((-pointerPosition.y + 1) / 2) * sizes.height - this.#btnOffsetY;
+    #createButtonGroup() {
+        // create elements
+        const btnGroup = document.createElement("div");
+        btnGroup.className = styles.btnGroup;
 
-        this.htmlElement.style.transform = `translate(${btnX}px,${btnY}px)`;
-        // move obj
+        const selectMovementbtn = createIconButton(controlCameraIcon);
+        const selectRotationbtn = createIconButton(rotateIcon);
+
+
+        // handle clicks
+        selectMovementbtn.onclick = () => this.#setActiveAction("movement");
+        selectRotationbtn.onclick = () => this.#setActiveAction("rotation");
+        // save 
+        this.selectMovementbtn = selectMovementbtn;
+        this.selectRotationbtn = selectRotationbtn;
+        // set the active one
+        this.#updateActiveButton();
+        // append to doc
+        btnGroup.append(selectMovementbtn, selectRotationbtn);
+
+        return btnGroup;
+    }
+
+    #updateActiveButton() {
+        if (this.activeAction === "movement") {
+            // style
+            this.selectRotationbtn.classList.add(styles.inactiveBtn);
+            this.selectMovementbtn.classList.remove(styles.inactiveBtn);
+            // icon
+            this.movementBtn.querySelector("img")?.setAttribute("src", controlCameraIcon);
+        }
+        else {
+            // style
+            this.selectMovementbtn.classList.add(styles.inactiveBtn);
+            this.selectRotationbtn.classList.remove(styles.inactiveBtn);
+            // icon
+            this.movementBtn.querySelector("img")?.setAttribute("src", rotateIcon);
+        }
+    }
+
+    #setActiveAction(currActiveAction: activeActionType) {
+        // update variable
+        this.activeAction = currActiveAction;
+        // update button styles
+        this.#updateActiveButton();
+        // reset button position
+        this.#resetButtonPosition();
+    }
+
+    #updateMove(pointerPosition: Vector2) {
         if (this.#experience.world.activeObject instanceof StickyObject)
             this.#experience.world.activeObject.move(pointerPosition);
     }
 
+    #updateRotation(pointerPosition: Vector2) {
+        if (this.#experience.world.activeObject instanceof StickyObject)
+            this.#experience.world.activeObject.rotate(pointerPosition);
+    }
+
+    #updateButtonPosition(pointerPosition: Vector2) {
+        // move button
+        const sizes = this.#experience.sizes;
+        const btnX = ((pointerPosition.x + 1) / 2) * sizes.width - this.#btnOffsetX;
+        const btnY = ((-pointerPosition.y + 1) / 2) * sizes.height - this.#btnOffsetY;
+
+        this.movementBtn.style.transform = `translate(${btnX}px,${btnY}px)`;
+    }
+
     #startMovement() {
         // pointer position listener
-        if (!this.#isMoveObjActive) return;
+        if (!this.#isObjActive) return;
         const events = this.#experience.events;
         events.addEventListener("pointerMove");
     }
@@ -76,39 +148,63 @@ export default class MoveUI extends UI {
         const events = this.#experience.events;
         events.removeEventListener("pointerMove");
         // move obj
-        this.#isMoveObjActive = false;
+        this.#isObjActive = false;
+    }
+
+    #resetButtonPosition() {
+        if (this.#experience.world.activeObject) {
+            if(this.activeAction === "movement") {
+                
+                const world = this.#experience.world;
+                const sizes = this.#experience.sizes;
+                const maxWorld3 = new Vector3(world.wall!.width, world.wall!.height, world.floor!.depth);
+                const maxWindow3 = new Vector3(sizes.width, sizes.height, sizes.height);
+                const initPos = world.activeObject!.instance.position.clone();
+                initPos.y *= -1;
+                initPos.add(maxWorld3.clone().divideScalar(2));
+    
+                initPos.divide(maxWorld3);
+                initPos.multiply(maxWindow3);
+                if (world.activeObject instanceof StickyObject) {
+                    if (world.activeObject.stickOnWall)
+                        this.movementBtn.style.transform = `translate(${initPos?.x}px, ${initPos?.y}px)`
+                    else
+                        this.movementBtn.style.transform = `translate(${initPos?.x}px, ${initPos?.z}px)`
+                }
+            }
+        }
     }
 
     show() {
         // reset btn pos according to the obj pos
-        if(this.#experience.world.activeObject) {
-            const world = this.#experience.world;
-            const sizes = this.#experience.sizes;
-            const maxWorld3 = new Vector3(world.wall!.width, world.wall!.height, world.floor!.depth);
-            const maxWindow3 = new Vector3(sizes.width, sizes.height, sizes.height);
-            const initPos = world.activeObject!.instance.position.clone();
-            initPos.y *= -1;
-            initPos.add(maxWorld3.clone().divideScalar(2));
-            
-            initPos.divide(maxWorld3);
-            initPos.multiply(maxWindow3);
-            if (world.activeObject instanceof StickyObject) {
-                if (world.activeObject.stickZ)
-                    this.htmlElement.style.transform = `translate(${initPos?.x}px, ${initPos?.y}px)`
-                else
-                    this.htmlElement.style.transform = `translate(${initPos?.x}px, ${initPos?.z}px)`
-            }
-        }
+        this.#resetButtonPosition();
         // remove hidden class
-        this.htmlElement.classList.remove(styles.hiddenBtn);
+        this.movementBtn.classList.remove(styles.hiddenBtn);
     }
 
     hide() {
-        this.htmlElement.classList.add(styles.hiddenBtn); // hidden by default
+        this.movementBtn.classList.add(styles.hiddenBtn); // hidden by default
     }
 
     update() {
-        if (this.#isMoveObjActive)
-            this.#updateMove();
+        if (this.#isObjActive) {
+            const pointerPosition = this.#experience.events.pointerPos;
+            this.#updateButtonPosition(pointerPosition);
+            if(this.activeAction === "movement")
+                this.#updateMove(pointerPosition);
+            else
+                this.#updateRotation(pointerPosition);
+
+        }
     }
+}
+
+
+function createIconButton(iconPath: string) {
+    const btn = document.createElement("button");
+    const moveIcon = document.createElement("img");
+    moveIcon.setAttribute("src", iconPath);
+    btn.append(moveIcon);
+
+    return btn;
 }

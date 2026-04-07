@@ -10,6 +10,7 @@ const furnitureList = sources.filter((item) => item.type === "gltfModel").map((i
 export default class FurnitureUI extends UI {
     constructor() {
         super();
+        this.initUI();
     }
 
     initUI() {
