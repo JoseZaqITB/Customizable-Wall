@@ -13,11 +13,8 @@ export default class StickyObject extends PBRModel {
         name: string,
         position?: THREE.Vector3,
         rotation?: THREE.Vector3,
-        diff?: string,
-        arm?: string,
-        normal?: string
     ) {
-        super(name, position, rotation, diff, arm, normal);
+        super(name, position, rotation);
         // set properties
         this.stickOnWall = stickZ;
         this.#experience = new Experience();
