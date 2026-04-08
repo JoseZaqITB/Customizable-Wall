@@ -23,10 +23,10 @@ export default class PBRModel {
     }
 
     setModel(model: GLTF, position: THREE.Vector3, rotation: THREE.Vector3) {
-        const modelClone = model.scene.clone();
+        const modelClone = cloneObjectUnique(model.scene);
         modelClone.userData["isDraggable"] = true;
         modelClone.name = modelClone.children[0].name.concat((Math.random() * 1000).toString());
-        
+
         modelClone.position.copy(position);
         modelClone.rotation.set(rotation.x, rotation.y, rotation.z);
 
@@ -38,4 +38,33 @@ export default class PBRModel {
     update() {
         // to override
     };
+}
+
+function cloneObjectUnique(obj: THREE.Mesh | THREE.Group) {
+    // si es grupo
+    let clone = obj.clone();
+    if (clone instanceof Group) {
+        traverseAll(clone);
+    } else if (clone instanceof THREE.Mesh) {
+        // clone material
+        if (Array.isArray(clone.material))
+            clone.material = clone.material.map((m) => m.clone());
+        else
+            clone.material = clone.material.clone();
+    }
+    return clone;
+}
+
+function traverseAll(object: THREE.Mesh | THREE.Group) {
+    object.traverse((subobj) => {
+        if (subobj instanceof THREE.Group && subobj !== object){
+            traverseAll(subobj);
+        }else if (subobj instanceof THREE.Mesh) {
+            // clone material
+            if (Array.isArray(subobj.material))
+                subobj.material = subobj.material.map((m) => m.clone());
+            else
+                subobj.material = subobj.material.clone();
+        }
+    })
 }

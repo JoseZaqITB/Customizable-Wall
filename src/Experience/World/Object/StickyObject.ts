@@ -45,6 +45,15 @@ export default class StickyObject extends PBRModel {
         this.#initPosition();
     }
 
+    setActive() {
+        console.log(this.instance);
+        this.#changeColorToFirstMesh(0xff0000);
+    }
+
+    setInactive() {
+        this.#changeColorToFirstMesh("");
+    }
+
     move(position2D: THREE.Vector2) {
         // move on the right axis ( Y or Z ) and respecting boundaries
         if (this.stickOnWall) {
@@ -94,4 +103,13 @@ export default class StickyObject extends PBRModel {
             this.instance.position.y = floor!.instance.position.y + floor!.height / 2;
         }
     }
+
+    #changeColorToFirstMesh(color: THREE.ColorRepresentation) {
+        let coloredMesh: THREE.Object3D = this.instance;
+        while (!(coloredMesh instanceof THREE.Mesh)) {
+            coloredMesh = coloredMesh.children[0];
+        }
+        (coloredMesh.material as THREE.MeshStandardMaterial).color = new THREE.Color(color);
+    }
 }
+

@@ -12,7 +12,7 @@ export default class World {
     experience: Experience;
     scene: THREE.Scene;
     resources: Resources;
-    #objectList: (Object3D | PBRModel)[] = [];
+    #objectList: StickyObject[] = [];
     meshList: (THREE.Mesh | THREE.Group)[] = [];
     activeObject: (Object3D | PBRModel) | undefined;
 
@@ -30,8 +30,8 @@ export default class World {
         // Wait for resources
         this.resources.on('ready', () => {
             // main objects
-            this.wall = new Wall(4,2.5,0.25);
-            this.floor = new Floor(-this.wall.height * 0.5,4,4,0.25);
+            this.wall = new Wall(4, 2.5, 0.25);
+            this.floor = new Floor(-this.wall.height * 0.5, 4, 4, 0.25);
 
             this.wall.setZ(- this.floor.depth * 0.5);
             // Setup
@@ -48,33 +48,23 @@ export default class World {
             this.fox.update() */
     }
 
-    addObject(obj: Object3D | PBRModel) {
+    addObject(obj: StickyObject) {
         this.#objectList.push(obj);
         this.meshList.push(obj.instance);
     }
 
     #updateActiveObject(obj: THREE.Object3D | undefined) {
         // set default color to all objects
-        this.meshList.forEach((object) => {
-            let mesh = object
-            while(!(mesh instanceof THREE.Mesh)) {
-                mesh = mesh.children[0] as THREE.Group;
-            }
-            (mesh.material as THREE.MeshStandardMaterial).color = new THREE.Color();
-        })
+        this.#objectList.forEach((object) => object.setInactive())
 
 
         // set the active object
         if (obj) {
-            // change color
-            let coloredMesh = obj;
-            while(!(coloredMesh instanceof THREE.Mesh)) {
-                coloredMesh = coloredMesh.children[0];
-            }
-            (coloredMesh.material as THREE.MeshStandardMaterial).color = new THREE.Color(0xff8800)
             // update active object
             const newActiveObject = this.#objectList.find((object) => object.instance.name === obj.name);
             this.activeObject = newActiveObject;
+            // change color
+            newActiveObject?.setActive();
             // show ui
             this.experience.hud.UIList.moveUI.show();
         } else {
@@ -89,16 +79,16 @@ export default class World {
 function furnitureSeed() {
     const array = [];
     //
-    array.push(new StickyObject(false, "sofa", new THREE.Vector3(0,0,1.5), new THREE.Vector3(0,Math.PI,0)));
-    array.push(new StickyObject(false, "sofa", new THREE.Vector3(1.25,0,0.25), new THREE.Vector3(0, - Math.PI * 0.5,0)));
-    array.push(new StickyObject(true, "woodCabinet", new THREE.Vector3(0,-1.25,0)));
-    array.push(new StickyObject(true, "television", new THREE.Vector3(0,-0.6,0)));
-    array.push(new StickyObject(true, "picture", new THREE.Vector3(0.6,0.25,0)));
-    array.push(new StickyObject(true, "picture", new THREE.Vector3(-0.6,0.25,0)));
-    array.push(new StickyObject(true, "plant", new THREE.Vector3(-1,-0.6,0)));
-    array.push(new StickyObject(true, "plant", new THREE.Vector3(1,-0.6,0)));
-    array.push(new StickyObject(false, "table", new THREE.Vector3(0,0,0)));
+    array.push(new StickyObject(false, "sofa", new THREE.Vector3(0, 0, 1.5), new THREE.Vector3(0, Math.PI, 0)));
+    array.push(new StickyObject(false, "sofa", new THREE.Vector3(1.25, 0, 0.25), new THREE.Vector3(0, - Math.PI * 0.5, 0)));
+    array.push(new StickyObject(true, "woodCabinet", new THREE.Vector3(0, -1.25, 0)));
+    array.push(new StickyObject(true, "television", new THREE.Vector3(0, -0.6, 0)));
+    array.push(new StickyObject(true, "picture", new THREE.Vector3(0.6, 0.25, 0)));
+    array.push(new StickyObject(true, "picture", new THREE.Vector3(-0.6, 0.25, 0)));
+    array.push(new StickyObject(true, "plant", new THREE.Vector3(-1, -0.6, 0)));
+    array.push(new StickyObject(true, "plant", new THREE.Vector3(1, -0.6, 0)));
+    array.push(new StickyObject(false, "table", new THREE.Vector3(0, 0, 0)));
     //
     return array;
-    
+
 }
