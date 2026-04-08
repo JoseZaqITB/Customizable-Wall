@@ -28,12 +28,11 @@ export default class MoveUI extends UI {
 
     initUI() {
         /* WRAPPER */
-        const wrapper = document.createDocumentFragment();
-
+        const wrapper = document.createElement("div");
+        wrapper.classList.add(styles.hiddenBtn);
         // create button for movement
         const moveBtn = createIconButton(controlCameraIcon);
         moveBtn.classList.add(styles.moveBtn);
-        moveBtn.classList.add(styles.hiddenBtn);
 
         moveBtn.addEventListener("pointerdown", (e) => {
             // avoid werird pointer behaviour
@@ -76,7 +75,6 @@ export default class MoveUI extends UI {
 
         const selectMovementbtn = createIconButton(controlCameraIcon);
         const selectRotationbtn = createIconButton(rotateIcon);
-
 
         // handle clicks
         selectMovementbtn.onclick = () => this.#setActiveAction("movement");
@@ -153,8 +151,8 @@ export default class MoveUI extends UI {
 
     #resetButtonPosition() {
         if (this.#experience.world.activeObject) {
-            if(this.activeAction === "movement") {
-                
+            if (this.activeAction === "movement") {
+
                 const world = this.#experience.world;
                 const sizes = this.#experience.sizes;
                 const maxWorld3 = new Vector3(world.wall!.width, world.wall!.height, world.floor!.depth);
@@ -162,7 +160,7 @@ export default class MoveUI extends UI {
                 const initPos = world.activeObject!.instance.position.clone();
                 initPos.y *= -1;
                 initPos.add(maxWorld3.clone().divideScalar(2));
-    
+
                 initPos.divide(maxWorld3);
                 initPos.multiply(maxWindow3);
                 if (world.activeObject instanceof StickyObject) {
@@ -179,18 +177,19 @@ export default class MoveUI extends UI {
         // reset btn pos according to the obj pos
         this.#resetButtonPosition();
         // remove hidden class
-        this.movementBtn.classList.remove(styles.hiddenBtn);
+        this.htmlElement.classList.remove(styles.hiddenBtn);
     }
 
     hide() {
-        this.movementBtn.classList.add(styles.hiddenBtn); // hidden by default
+        // remove hidden class
+        this.htmlElement.classList.add(styles.hiddenBtn); // hidden by default
     }
 
     update() {
         if (this.#isObjActive) {
             const pointerPosition = this.#experience.events.pointerPos;
             this.#updateButtonPosition(pointerPosition);
-            if(this.activeAction === "movement")
+            if (this.activeAction === "movement")
                 this.#updateMove(pointerPosition);
             else
                 this.#updateRotation(pointerPosition);

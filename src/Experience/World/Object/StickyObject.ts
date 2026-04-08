@@ -46,7 +46,6 @@ export default class StickyObject extends PBRModel {
     }
 
     setActive() {
-        console.log(this.instance);
         this.#changeColorToFirstMesh(0xff0000);
     }
 

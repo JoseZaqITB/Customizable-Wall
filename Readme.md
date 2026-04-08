@@ -8,7 +8,9 @@
 - establish boundaries to object movements
 - add rotation feature
 - build a livingRoom
-
 - remove pbr textures as parameters in StickyObject
+- avoid multiple active colors at the same time
+
+- add the action of change wall's and floor's colors
 - should i remove btn listeners?
 - scroll on horizontal phone too

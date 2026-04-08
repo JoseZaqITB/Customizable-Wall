@@ -1,6 +1,6 @@
 
 export default class UI {
-    htmlElement!: HTMLElement | DocumentFragment;
+    htmlElement!: HTMLElement;
     isHidden = false;
     constructor() {
         //this.initUI();

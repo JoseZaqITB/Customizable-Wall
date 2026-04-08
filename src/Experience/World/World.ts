@@ -81,7 +81,7 @@ function furnitureSeed() {
     //
     array.push(new StickyObject(false, "sofa", new THREE.Vector3(0, 0, 1.5), new THREE.Vector3(0, Math.PI, 0)));
     array.push(new StickyObject(false, "sofa", new THREE.Vector3(1.25, 0, 0.25), new THREE.Vector3(0, - Math.PI * 0.5, 0)));
-    array.push(new StickyObject(true, "woodCabinet", new THREE.Vector3(0, -1.25, 0)));
+    array.push(new StickyObject(false, "woodCabinet", new THREE.Vector3(0,0,-1.5)));
     array.push(new StickyObject(true, "television", new THREE.Vector3(0, -0.6, 0)));
     array.push(new StickyObject(true, "picture", new THREE.Vector3(0.6, 0.25, 0)));
     array.push(new StickyObject(true, "picture", new THREE.Vector3(-0.6, 0.25, 0)));
