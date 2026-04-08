@@ -3,13 +3,9 @@ import Experience from "../../Experience";
 
 export default class Object3D {
     experience: Experience;
-    geometry: THREE.BufferGeometry;
-    material: THREE.Material;
     instance: THREE.Mesh;
     
     constructor(geometry: THREE.BufferGeometry, material: THREE.Material ) {
-        this.geometry = geometry;
-        this.material = material;
 
         // create mesh
         this.instance = new THREE.Mesh(geometry, material);
@@ -23,8 +19,12 @@ export default class Object3D {
     // methods
     dispose() {
         // dispose stuff
-        this.geometry.dispose();
-        this.material.dispose();
+        this.instance.geometry.dispose();
+        if( this.instance.material instanceof THREE.Material)
+            this.instance.material.dispose();
+        else {
+            this.instance.material.forEach((material) => material.dispose())
+        }
         // remove mesh from scene
         this.experience.scene.remove(this.instance);
     }
