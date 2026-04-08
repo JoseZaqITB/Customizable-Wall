@@ -5,7 +5,7 @@ import Wall from './Object/Wall.js';
 import Floor from './Object/Floor.ts';
 import Light from './Light.ts';
 import StickyObject from './Object/StickyObject.ts';
-import Object3D from './Object/Object3D.ts';
+import StaticObject from './Object/StaticObject.ts';
 import PBRModel from './Object/PBRModel.ts';
 
 export default class World {
@@ -14,7 +14,7 @@ export default class World {
     resources: Resources;
     #objectList: StickyObject[] = [];
     meshList: (THREE.Mesh | THREE.Group)[] = [];
-    activeObject: (Object3D | PBRModel) | undefined;
+    activeObject: (StaticObject | PBRModel) | undefined;
 
     // static objs
     wall: Wall | undefined;

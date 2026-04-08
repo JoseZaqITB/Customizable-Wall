@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import Experience from "../../Experience";
 
-export default class Object3D {
+export default class StaticObject {
     experience: Experience;
     instance: THREE.Mesh;
     
@@ -27,6 +27,26 @@ export default class Object3D {
         }
         // remove mesh from scene
         this.experience.scene.remove(this.instance);
+    }
+
+    get color(): string {
+        const material = this.instance.material;
+        if(material instanceof THREE.MeshStandardMaterial || material instanceof THREE.MeshBasicMaterial) {
+            return `#${material.color.getHexString()}`;
+        } else {
+            throw new Error("the Material has no color parameter");
+        }
+    }
+
+    set color(color: THREE.ColorRepresentation) {
+        // set to object
+        const material = this.instance.material;
+        if(material instanceof THREE.MeshStandardMaterial || material instanceof THREE.MeshBasicMaterial) {
+            material.color = new THREE.Color(color);
+        } else {
+            throw new Error("the Material has no color parameter");
+        }
+        
     }
 
     update() {}

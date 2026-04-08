@@ -85,6 +85,7 @@ export default class Experience {
     }
 
     destroy() {
+        this.hud.dispose();
         this.events.removeEventListener("objectClicked");
         this.sizes.off('resize')
         this.time.off('tick')

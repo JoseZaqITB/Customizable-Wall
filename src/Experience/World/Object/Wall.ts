@@ -1,9 +1,8 @@
 import * as THREE from "three";
-import Object3D from "./Object3D";
+import StaticObject from "./StaticObject";
 import Experience from "../../Experience";
 
-export default class Wall extends Object3D {
-    color: number;
+export default class Wall extends StaticObject {
     width: number;
     height: number;
     depth: number;
