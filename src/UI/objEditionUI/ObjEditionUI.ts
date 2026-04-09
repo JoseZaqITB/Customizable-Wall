@@ -2,13 +2,14 @@ import UI from "../UI";
 import StickyObject from "../../Experience/World/Object/StickyObject";
 import controlCameraIcon from "../../assets/control_camera_icon.svg";
 import rotateIcon from "../../assets/rotate_auto_24dp_FFFBEB_FILL0_wght400_GRAD0_opsz24.svg";
+import deleteIcon from "../../assets/delete_24dp_BB271A_FILL0_wght400_GRAD0_opsz24.svg";
 import { Vector2, Vector3 } from "three";
-import styles from "./MovUI.module.css";
+import styles from "./ObjEditionUI.module.css";
 import Experience from "../../Experience/Experience";
 
 type activeActionType = "movement" | "rotation";
 
-export default class MoveUI extends UI {
+export default class ObjEditionUI extends UI {
     movementBtn!: HTMLElement;
     #experience: Experience;
     #isObjActive = false;
@@ -30,7 +31,7 @@ export default class MoveUI extends UI {
         /* WRAPPER */
         const wrapper = document.createElement("div");
         wrapper.classList.add(styles.hiddenBtn);
-        // create button for movement
+        /*MOVMENT BUTTON*/
         const moveBtn = createIconButton(controlCameraIcon);
         moveBtn.classList.add(styles.moveBtn);
 
@@ -59,10 +60,11 @@ export default class MoveUI extends UI {
         // save properties
         this.movementBtn = moveBtn;
 
-        // button list
+        /*SELECTION OF TYPE OF ACTION*/
         const btnGroup = this.#createButtonGroup();
 
-        // add all to wrapper
+        /* SAVE */ 
+        //add all to wrapper
         wrapper.append(moveBtn, btnGroup);
         // save wrapper
         this.htmlElement = wrapper;
@@ -73,19 +75,28 @@ export default class MoveUI extends UI {
         const btnGroup = document.createElement("div");
         btnGroup.className = styles.btnGroup;
 
+        /* MOVE AND ROTATE ACTION */
         const selectMovementbtn = createIconButton(controlCameraIcon);
         const selectRotationbtn = createIconButton(rotateIcon);
 
         // handle clicks
         selectMovementbtn.onclick = () => this.#setActiveAction("movement");
         selectRotationbtn.onclick = () => this.#setActiveAction("rotation");
-        // save 
+
         this.selectMovementbtn = selectMovementbtn;
         this.selectRotationbtn = selectRotationbtn;
-        // set the active one
+
         this.#updateActiveButton();
-        // append to doc
-        btnGroup.append(selectMovementbtn, selectRotationbtn);
+
+        /*REMOVE ACTION*/
+        const removeBtn = createIconButton(deleteIcon);
+
+        removeBtn.onclick = () => {
+            this.#experience.world.deleteActiveObject();
+            this.hide();
+        };
+        /***/
+        btnGroup.append(selectMovementbtn, selectRotationbtn, removeBtn);
 
         return btnGroup;
     }

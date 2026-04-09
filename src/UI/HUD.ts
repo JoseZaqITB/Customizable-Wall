@@ -2,11 +2,11 @@ import Experience from "../Experience/Experience";
 import styles from "./HUD.module.css";
 import type UI from "./UI";
 import ColorUI from "./colorUI/ColorUI";
-import FurnitureUI from "./furnitureUI/furnitureUI";
-import MoveUI from "./moveUI/MoveUI";
+import FurnitureUI from "./furnitureUI/FurnitureUI";
+import ObjEditionUI from "./objEditionUI/ObjEditionUI";
 
 type HUDUIS = {
-    moveUI: MoveUI,
+    moveUI: ObjEditionUI,
     furnitureUI: FurnitureUI,
     colorUI: ColorUI,
 }
@@ -34,7 +34,7 @@ export default class HUD {
         this.#experience.resources.on("ready", () => {
             this.UIList = {
                 furnitureUI: new FurnitureUI(),
-                moveUI: new MoveUI(),
+                moveUI: new ObjEditionUI(),
                 colorUI: new ColorUI(),
             };
 

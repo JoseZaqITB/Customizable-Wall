@@ -53,6 +53,19 @@ export default class World {
         this.meshList.push(obj.instance);
     }
 
+    deleteActiveObject() {
+        // remove from list
+        this.#objectList = this.#objectList.filter((object) =>
+            object.instance.name != this.activeObject?.instance.name
+        );
+
+        this.meshList = this.meshList.filter((object) =>
+            object.name != this.activeObject?.instance.name
+        );
+        // delete object
+        this.activeObject?.dispose();
+    }
+
     #updateActiveObject(obj: THREE.Object3D | undefined) {
         // set default color to all objects
         this.#objectList.forEach((object) => object.setInactive())
@@ -81,7 +94,7 @@ function furnitureSeed() {
     //
     array.push(new StickyObject(false, "sofa", new THREE.Vector3(0, 0, 1.5), new THREE.Vector3(0, Math.PI, 0)));
     array.push(new StickyObject(false, "sofa", new THREE.Vector3(1.25, 0, 0.25), new THREE.Vector3(0, - Math.PI * 0.5, 0)));
-    array.push(new StickyObject(false, "woodCabinet", new THREE.Vector3(0,0,-1.5)));
+    array.push(new StickyObject(false, "woodCabinet", new THREE.Vector3(0, 0, -1.5)));
     array.push(new StickyObject(true, "television", new THREE.Vector3(0, -0.6, 0)));
     array.push(new StickyObject(true, "picture", new THREE.Vector3(0.6, 0.25, 0)));
     array.push(new StickyObject(true, "picture", new THREE.Vector3(-0.6, 0.25, 0)));

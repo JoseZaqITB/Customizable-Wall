@@ -38,11 +38,29 @@ export default class PBRModel {
     update() {
         // to override
     };
+
+    dispose() {
+        /* dispose only cloned stuff */
+        this.#experience.scene.remove(this.instance);
+        freeObjectMemory(this.instance);
+    }
+}
+
+function freeObjectMemory(obj: THREE.Mesh | THREE.Group ) {
+    if (obj instanceof Group) {
+        deleteTraverseAll(obj);
+    } else if (obj instanceof THREE.Mesh) {
+        // obj material
+        if (Array.isArray(obj.material))
+            obj.material.map((m) => m.dispose());
+        else
+            obj.material.dispose();
+    }
 }
 
 function cloneObjectUnique(obj: THREE.Mesh | THREE.Group) {
     // si es grupo
-    let clone = obj.clone();
+    let clone = obj.clone(true); // true: clone all descedants too
     if (clone instanceof Group) {
         traverseAll(clone);
     } else if (clone instanceof THREE.Mesh) {
@@ -65,6 +83,21 @@ function traverseAll(object: THREE.Mesh | THREE.Group) {
                 subobj.material = subobj.material.map((m) => m.clone());
             else
                 subobj.material = subobj.material.clone();
+        }
+    })
+}
+
+
+function deleteTraverseAll(object: THREE.Mesh | THREE.Group) {
+    object.traverse((subobj) => {
+        if (subobj instanceof THREE.Group && subobj !== object){
+            traverseAll(subobj);
+        }else if (subobj instanceof THREE.Mesh) {
+            // clone material
+            if (Array.isArray(subobj.material))
+                subobj.material.map((m) => m.dispose());
+            else
+                subobj.material.dispose();
         }
     })
 }

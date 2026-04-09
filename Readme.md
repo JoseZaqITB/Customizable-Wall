@@ -10,9 +10,9 @@
 - build a livingRoom
 - remove pbr textures as parameters in StickyObject
 - avoid multiple active colors at the same time
+- add the action of change wall's and floor's colors
 
 - add remove object button
-- add the action of change wall's and floor's colors
 - resize images ( blender tools maybe, or a automatic script )
 - should i remove btn listeners?
 - scroll on horizontal phone too
