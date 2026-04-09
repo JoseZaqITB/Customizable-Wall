@@ -6,7 +6,7 @@ export default class Floor extends StaticObject {
     width: number;
     height: number;
     depth: number;
-    constructor(y = 0, width = 10, depth = 5, height = 0.25, color = 0xe8dfb0) {
+    constructor(y = 0, width = 10, depth = 5, height = 0.25, color = "#cab3a0") {
         const geometry = new THREE.BoxGeometry(width, depth, height);
         // set material
         const experience = new Experience();
