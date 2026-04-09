@@ -8,12 +8,13 @@
   height: 100%;
 
   pointer-events: auto;
+  transition: 300ms translate ease-in-out;
 }
 .furnitureContainer {
   width: 220px;
   height: 100%;
 
-  box-shadow: 0px 0px 10px var(--color-dark);
+  box-shadow: inset 0px 0px 4px var(--color-dark);
 
   background-color: var(--color-normal);
 
@@ -21,7 +22,7 @@
 }
 
 .hiddenContainer {
-  display: none;
+  translate: -91% 0%;
 }
 
 nav {
@@ -101,7 +102,7 @@ nav {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 
-  box-shadow: 0px -2px 6px var(--color-dark);
+  box-shadow: inset 0px -2px 2px var(--color-dark);
 
   transform: rotate(90deg);
   border: unset;
@@ -182,5 +183,9 @@ nav {
 
   .hideBtn {
     transform: unset;
+  }
+
+  .hiddenContainer {
+    translate: 0% 88%;
   }
 }

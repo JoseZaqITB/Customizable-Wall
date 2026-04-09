@@ -43,3 +43,37 @@ button {
 
   cursor: pointer;
 }
+
+input[type="radio"] {
+  display: grid;
+  place-content: center;
+
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff; /*for ios*/
+  margin: 0;
+
+  font: inherit;
+  color: var(--color-dark);
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid var(--color-dark);
+  border-radius: 1em;
+
+  transform: translateY(-0.075em);
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--color-dark);
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}

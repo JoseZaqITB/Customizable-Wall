@@ -33,6 +33,12 @@
 
 @media (max-width: 460px) {
   .colorUIContainer {
+    right: unset;
+    left: 0;
     bottom: unset;
+  }
+
+  .inputColorWrapper {
+    font-size: small;
   }
 }

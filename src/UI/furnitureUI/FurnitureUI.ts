@@ -80,12 +80,12 @@ export default class FurnitureUI extends UI {
             if (this.isHidden) {
                 this.isHidden = false;
                 arrow.className = styles.downArrow;
-                container.classList.remove(styles.hiddenContainer);
+                wrapper.classList.remove(styles.hiddenContainer);
             }
             else {
                 this.isHidden = true;
                 arrow.className = styles.upArrow;
-                container.classList.add(styles.hiddenContainer);
+                wrapper.classList.add(styles.hiddenContainer);
             }
         };
         wrapper.append(hideBtn);
