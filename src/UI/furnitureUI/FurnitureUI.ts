@@ -29,6 +29,7 @@ export default class FurnitureUI extends UI {
 
         // furniture list
         const nav = document.createElement("nav");
+        nav.className = styles.nav;
         const ul = document.createElement("ul");
         ul.className = styles.btnContainer;
         nav.append(ul);

@@ -11,6 +11,10 @@
   transition: 300ms translate ease-in-out;
 }
 .furnitureContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
   width: 220px;
   height: 100%;
 
@@ -19,14 +23,16 @@
   background-color: var(--color-normal);
 
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .hiddenContainer {
   translate: -91% 0%;
 }
 
-nav {
+.nav {
   list-style-type: none;
+  overflow-y: auto;
 }
 
 .li {
@@ -153,8 +159,6 @@ nav {
   .furnitureContainer {
     width: 100%;
     height: 160px;
-
-    overflow: hidden;
   }
 
   .btnContainer {
@@ -162,14 +166,6 @@ nav {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 0px 8px;
-
-    height: 100%;
-    overflow-y: scroll;
-  }
-
-  nav {
-    overflow: scroll;
-    height: 80%;
   }
 
   .btn,

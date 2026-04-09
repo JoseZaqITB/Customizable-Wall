@@ -12,8 +12,8 @@
 - avoid multiple active colors at the same time
 - add the action of change wall's and floor's colors
 - add remove object button
-
 - resize and reposition group button on mobile
+
 - resize images ( blender tools maybe, or a automatic script )
 - should i remove btn listeners?
 - scroll on horizontal phone too
