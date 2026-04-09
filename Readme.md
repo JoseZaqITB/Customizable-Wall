@@ -13,7 +13,7 @@
 - add the action of change wall's and floor's colors
 - add remove object button
 - resize and reposition group button on mobile
+- scroll on horizontal phone too
 
 - resize images ( blender tools maybe, or a automatic script )
 - should i remove btn listeners?
-- scroll on horizontal phone too

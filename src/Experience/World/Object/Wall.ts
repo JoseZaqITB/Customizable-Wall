@@ -6,7 +6,7 @@ export default class Wall extends StaticObject {
     width: number;
     height: number;
     depth: number;
-    constructor(width: number = 10, height: number = 5, depth: number = 0.25, color = "#dd5a03") {
+    constructor(width: number = 10, height: number = 5, depth: number = 0.25, color = "#c1480b") {
         const experience = new Experience();
         const geometry = new THREE.BoxGeometry(width, height, depth);
         // set material
