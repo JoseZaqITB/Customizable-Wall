@@ -15,10 +15,11 @@ export default class Debug {
 
             // props
             const color = new Color();
-            this.experience.renderer.instance.getClearColor(color)
+            this.experience.renderer.instance.getClearColor(color);
+
             const debugObj = {
                 backgroundColor: color,
-
+                pointLightPos: this.experience
             }
             this.ui.addColor(debugObj, "backgroundColor")
                 .onChange((value: Color) => {
