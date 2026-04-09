@@ -4,13 +4,18 @@ import sources from "../../Experience/sources";
 import StickyObject from "../../Experience/World/Object/StickyObject";
 import World from "../../Experience/World/World";
 import UI from "../UI";
+import type HUD from "../HUD";
 
 const furnitureList = sources.filter((item) => item.type === "gltfModel").map((item) => item.name);
 
 export default class FurnitureUI extends UI {
+    hud: HUD;
     constructor() {
         super();
         this.initUI();
+        // init properties
+        const experience = new Experience();
+        this.hud = experience.hud;
     }
 
     initUI() {
@@ -81,11 +86,15 @@ export default class FurnitureUI extends UI {
                 this.isHidden = false;
                 arrow.className = styles.downArrow;
                 wrapper.classList.remove(styles.hiddenContainer);
+                // show ColorUI too
+                this.hud.UIList.colorUI.show();
             }
             else {
                 this.isHidden = true;
                 arrow.className = styles.upArrow;
                 wrapper.classList.add(styles.hiddenContainer);
+                // hide ColorUI too
+                this.hud.UIList.colorUI.hide();
             }
         };
         wrapper.append(hideBtn);
@@ -101,6 +110,10 @@ export default class FurnitureUI extends UI {
         const checkedRadio: HTMLInputElement | null = document.querySelector('input[name="stick"]:checked');
         const onWall = checkedRadio?.value === "Wall";
         world.addObject(new StickyObject(onWall, furnitureName))
+    }
+
+    hide() {
+        
     }
 }
 

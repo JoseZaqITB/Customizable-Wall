@@ -95,5 +95,13 @@ export default class ColorUI extends UI {
             dispose.input.removeEventListener(dispose.eventName, dispose.handleEvent)
         });
     }
+
+    hide() {
+        this.htmlElement.classList.add(styles.hiddenContainer);
+    }
+
+    show() {
+        this.htmlElement.classList.remove(styles.hiddenContainer);        
+    }
 }
 

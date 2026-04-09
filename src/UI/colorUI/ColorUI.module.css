@@ -9,6 +9,7 @@
   padding: 16px 8px;
 
   pointer-events: auto;
+  transition: 300ms translate ease-in-out;
 }
 
 .inputColorWrapper {
@@ -31,6 +32,10 @@
   }
 }
 
+.hiddenContainer {
+  translate: 100% 0%;
+}
+
 @media (max-width: 460px) {
   .colorUIContainer {
     right: unset;
@@ -40,5 +45,9 @@
 
   .inputColorWrapper {
     font-size: small;
+  }
+
+  .hiddenContainer {
+    translate: 0% -100%;
   }
 }
