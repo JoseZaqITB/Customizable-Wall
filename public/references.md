@@ -13,3 +13,7 @@ https://polyhaven.com/a/chinese_cabinet
 
 https://polyhaven.com/a/beige_wall_001
 https://polyhaven.com/a/laminate_floor_02
+
+# css
+
+https://css-loaders.com/square/#l2
