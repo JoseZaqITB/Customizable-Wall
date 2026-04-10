@@ -23,6 +23,14 @@ export default class Camera {
         this.setControls()
     }
 
+    setTopView() {
+        this.instance.position.set(0,1,0);
+    }
+
+    setFrontView() {
+        this.instance.position.set(0,0,1);
+    }
+
     setInstance() {
         this.instance = new THREE.PerspectiveCamera(35, this.sizes.width / this.sizes.height, 0.1, 100)
         this.instance.position.set(-6, 8, 16)

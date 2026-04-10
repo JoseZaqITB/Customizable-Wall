@@ -15,5 +15,7 @@
 - resize and reposition group button on mobile
 - scroll on horizontal phone too
 
+- move camera upwards when moving wall object, and front when wall
+- scale the position of the move button
 - resize images ( blender tools maybe, or a automatic script )
 - should i remove btn listeners?

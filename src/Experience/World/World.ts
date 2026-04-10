@@ -27,6 +27,7 @@ export default class World {
 
 
         const light = new Light();
+        light.turnOn();
         // Wait for resources
         this.resources.on('ready', () => {
             // main objects
@@ -39,7 +40,7 @@ export default class World {
             livingRoomSetup.forEach((fur) => this.addObject(fur));
         })
         // events
-        this.experience.events.addEventListener("objectClicked", (obj) => this.#updateActiveObject(obj));
+        this.experience.events.addEventListener("objectClicked", (obj) => this.#handleObjectSelection(obj));
     }
 
     update() {
@@ -64,6 +65,18 @@ export default class World {
         );
         // delete object
         this.activeObject?.dispose();
+    }
+
+    #handleObjectSelection(obj: THREE.Object3D | undefined) {
+        // move camera accordingly
+        /* if(this.activeObject instanceof StickyObject)
+            if(this.activeObject.stickOnWall) 
+                this.experience.camera.setFrontView();
+            else 
+                this.experience.camera.setTopView();
+                 */
+        //
+        this.#updateActiveObject(obj);
     }
 
     #updateActiveObject(obj: THREE.Object3D | undefined) {
