@@ -19,3 +19,4 @@
 - scale the position of the move button
 - resize images ( blender tools maybe, or a automatic script )
 - should i remove btn listeners?
+- optimize bundle size -> currently > 500kb
